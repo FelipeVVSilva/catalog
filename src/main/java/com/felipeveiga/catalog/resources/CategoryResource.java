@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.felipeveiga.catalog.entities.Category;
+import com.felipeveiga.catalog.entities.dto.CategoryDTO;
 import com.felipeveiga.catalog.services.CategoryService;
 
 @Controller
@@ -19,9 +19,9 @@ public class CategoryResource {
 	private CategoryService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll(){
-		List<Category> categories = service.findAll();
-		return ResponseEntity.ok().body(categories);
+	public ResponseEntity<List<CategoryDTO>> findAll(){
+		List<CategoryDTO> categoriesDTO = service.findAll();
+		return ResponseEntity.ok().body(categoriesDTO);
 	}
 	
 }
