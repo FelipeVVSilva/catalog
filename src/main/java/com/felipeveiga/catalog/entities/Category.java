@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.felipeveiga.catalog.entities.dto.CategoryDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,10 @@ public class Category implements Serializable{
 		super();
 		this.id = id;
 		this.name = name;
+	}
+	public Category(CategoryDTO dto) {
+		id = dto.getId();
+		name = dto.getName();
 	}
 	
 	public Long getId() {
