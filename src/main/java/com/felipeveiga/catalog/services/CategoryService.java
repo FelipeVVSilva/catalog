@@ -26,6 +26,12 @@ public class CategoryService {
 		return categoriesDTO;
 	}
 	
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
+		Category entity = repo.findById(id).get();
+		return new CategoryDTO(entity);
+	}
+	
 	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
 		dto.setId(null);
@@ -33,6 +39,8 @@ public class CategoryService {
 		entity = repo.save(entity);
 		return new CategoryDTO(entity);
 	}
+	
+	
 	
 	
 }

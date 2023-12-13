@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,12 @@ public class CategoryResource {
 	public ResponseEntity<List<CategoryDTO>> findAll(){
 		List<CategoryDTO> categoriesDTO = service.findAll();
 		return ResponseEntity.ok().body(categoriesDTO);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+		CategoryDTO dto = service.findById(id);
+		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PostMapping
