@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.felipeveiga.catalog.entities.Category;
 import com.felipeveiga.catalog.entities.dto.CategoryDTO;
 import com.felipeveiga.catalog.repositories.CategoryRepository;
+import com.felipeveiga.catalog.services.exceptions.ResourceNotFoundException;
 
 
 
@@ -28,7 +29,7 @@ public class CategoryService {
 	
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
-		Category entity = repo.findById(id).get();
+		Category entity = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id of category not found"));
 		return new CategoryDTO(entity);
 	}
 	
