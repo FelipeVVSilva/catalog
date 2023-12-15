@@ -12,8 +12,6 @@ import com.felipeveiga.catalog.entities.dto.CategoryDTO;
 import com.felipeveiga.catalog.repositories.CategoryRepository;
 import com.felipeveiga.catalog.services.exceptions.ResourceNotFoundException;
 
-
-
 @Service
 public class CategoryService {
 
@@ -39,6 +37,18 @@ public class CategoryService {
 		Category entity = new Category(dto);
 		entity = repo.save(entity);
 		return new CategoryDTO(entity);
+	}
+	
+	@Transactional
+	public CategoryDTO update(Long id, CategoryDTO updatedCategory) {
+		Category cat = repo.getReferenceById(id);
+		updatedCategoryData(updatedCategory, cat);
+		cat = repo.save(cat);
+		return new CategoryDTO(cat);
+	}
+	
+	private void updatedCategoryData(CategoryDTO updatedCategory, Category cat) {
+		cat.setName(updatedCategory.getName());
 	}
 	
 	
