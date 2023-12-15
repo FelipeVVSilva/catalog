@@ -12,6 +12,8 @@ import com.felipeveiga.catalog.entities.dto.CategoryDTO;
 import com.felipeveiga.catalog.repositories.CategoryRepository;
 import com.felipeveiga.catalog.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class CategoryService {
 
@@ -41,10 +43,15 @@ public class CategoryService {
 	
 	@Transactional
 	public CategoryDTO update(Long id, CategoryDTO updatedCategory) {
-		Category cat = repo.getReferenceById(id);
-		updatedCategoryData(updatedCategory, cat);
-		cat = repo.save(cat);
-		return new CategoryDTO(cat);
+		try {
+			Category cat = repo.getReferenceById(id);
+			updatedCategoryData(updatedCategory, cat);
+			cat = repo.save(cat);
+			return new CategoryDTO(cat);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id of category not found");
+		}
 	}
 	
 	private void updatedCategoryData(CategoryDTO updatedCategory, Category cat) {
