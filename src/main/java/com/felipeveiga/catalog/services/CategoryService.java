@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.felipeveiga.catalog.entities.Category;
 import com.felipeveiga.catalog.entities.dto.CategoryDTO;
 import com.felipeveiga.catalog.repositories.CategoryRepository;
+import com.felipeveiga.catalog.services.exceptions.DatabaseException;
 import com.felipeveiga.catalog.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -57,11 +59,16 @@ public class CategoryService {
 	
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public void delete(Long id) {
-		if(!repo.existsById(id)) {
-			throw new ResourceNotFoundException("Id of category not found");
+		try {
+			if(!repo.existsById(id)) {
+				throw new ResourceNotFoundException("Id of category not found");
+			}
+			else {
+				repo.deleteById(id);
+			}
 		}
-		else {
-			repo.deleteById(id);
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Do not delete this category, as it has associations. This action may cause integrity violations in the database.");
 		}
 	}
 	
