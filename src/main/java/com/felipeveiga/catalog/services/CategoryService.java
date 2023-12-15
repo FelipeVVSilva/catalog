@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.felipeveiga.catalog.entities.Category;
@@ -51,6 +52,16 @@ public class CategoryService {
 		}
 		catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id of category not found");
+		}
+	}
+	
+	@Transactional(propagation = Propagation.SUPPORTS)
+	public void delete(Long id) {
+		if(!repo.existsById(id)) {
+			throw new ResourceNotFoundException("Id of category not found");
+		}
+		else {
+			repo.deleteById(id);
 		}
 	}
 	
