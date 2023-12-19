@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.felipeveiga.catalog.entities.dto.ProductDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,6 +48,14 @@ public class Product implements Serializable{
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+	}
+	public Product(ProductDTO dto) {
+		super();
+		this.id = dto.getId();
+		this.name = dto.getName();
+		this.description = dto.getDescription();
+		this.price = dto.getPrice();
+		this.imgUrl = dto.getImgUrl();
 	}
 	
 	public Long getId() {
