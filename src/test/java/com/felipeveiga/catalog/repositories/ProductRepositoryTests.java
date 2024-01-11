@@ -18,7 +18,7 @@ public class ProductRepositoryTests {
 	private ProductRepository repo;
 	
 	private long existingId;
-	private long nonExistingId;
+	long nonExistingId;
 	private long countTotalProducts;
 	
 	@BeforeEach
@@ -33,7 +33,6 @@ public class ProductRepositoryTests {
 	@Test
 	public void deleteShouldDeleteProductWhenIdExists() {
 
-		Long existingId = 1L;
 		repo.deleteById(existingId);
 
 		Optional<Product> result = repo.findById(existingId);
@@ -52,6 +51,25 @@ public class ProductRepositoryTests {
 		Assertions.assertNotNull(product.getId());
 		Assertions.assertEquals(countTotalProducts + 1, product.getId());
 		
+	}
+	
+	@Test
+	public void findByIdShouldReturnsProductWhenIdExists() {
+		
+		Optional<Product> product = repo.findById(existingId);
+		
+		Assertions.assertNotNull(product.get().getId());
+		Assertions.assertTrue(product.isPresent());
+		
+		
+	}
+	
+	@Test
+	public void findByIdShouldReturnsNothingtWhenIdNotExists() {
+		
+		Optional<Product> product = repo.findById(nonExistingId);
+		
+		Assertions.assertFalse(product.isPresent());
 		
 	}
 	
