@@ -68,17 +68,6 @@ public class ProductServiceTest {
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
 		Mockito.doThrow(ResourceNotFoundException.class).when(repository).findById(nonExistingId);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		Mockito.when(repository.getReferenceById(existingId)).thenReturn(product);
 		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 		Mockito.doThrow(EntityNotFoundException.class).when(repository).getReferenceById(nonExistingId);
@@ -110,8 +99,6 @@ public class ProductServiceTest {
 		Assertions.assertThrows(DatabaseException.class, () -> {
 			service.delete(dependentId);
 		});
-		
-		//Mockito.verify(repository, Mockito.times(1)).deleteById(dependentId);
 		
 	}
 	

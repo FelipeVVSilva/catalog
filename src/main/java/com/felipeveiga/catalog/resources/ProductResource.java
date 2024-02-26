@@ -36,8 +36,8 @@ public class ProductResource {
 		 
 		 */
 		
-		Page<ProductDTO> categoriesDTO = service.findAll(pageable);
-		return ResponseEntity.ok().body(categoriesDTO);
+		Page<ProductDTO> productsDTO = service.findAll(pageable);
+		return ResponseEntity.ok().body(productsDTO);
 	}
 	
 	@GetMapping("/{id}")
