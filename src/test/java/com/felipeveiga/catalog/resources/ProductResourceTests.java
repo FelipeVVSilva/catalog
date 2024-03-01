@@ -4,7 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -64,6 +66,9 @@ public class ProductResourceTests {
 		when(service.update(eq(nonExistingId), any())).thenThrow(ResourceNotFoundException.class);
 		
 		when(service.insert(any())).thenReturn(productDTO);
+		
+		doNothing().when(service).delete(existingId);
+		doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
 	}
 	
 	@Test
@@ -140,5 +145,20 @@ public class ProductResourceTests {
 		result.andExpect(jsonPath("$.id").exists());
 		result.andExpect(jsonPath("$.name").exists());
 		result.andExpect(jsonPath("$.description").exists());
+	}
+	
+	@Test
+	public void deleteShouldDoNothingWhenIdExists() throws Exception {
+		
+		ResultActions result = mockMvc.perform(delete("/products/{id}", existingId));
+		result.andExpect(status().isNoContent());
+	}
+	
+	@Test
+	public void deleteShouldThrowResource404WhenIdNotExists() throws Exception {
+		
+		ResultActions result = mockMvc.perform(delete("/products/{id}", nonExistingId));
+		result.andExpect(status().isNotFound());
+		
 	}
 }
