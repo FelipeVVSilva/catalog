@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.felipeveiga.catalog.entities.dto.RoleDTO;
+import com.felipeveiga.catalog.entities.dto.UserDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -46,6 +49,12 @@ public class User implements Serializable{
 		this.email = email;
 		this.password = password;
 	}
+	public User(UserDTO dto) {
+		super();
+		this.firstName = dto.getFirstName();
+		this.lastName = dto.getLastName();
+		this.email = dto.getEmail();
+	}
 	
 	public Long getId() {
 		return id;
@@ -79,6 +88,9 @@ public class User implements Serializable{
 	}
 	public Set<Role> getRoles() {
 		return roles;
+	}
+	public void addRole(Role role) {
+		roles.add(role);
 	}
 	
 	@Override

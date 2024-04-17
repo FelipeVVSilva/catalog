@@ -3,6 +3,8 @@ package com.felipeveiga.catalog.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.felipeveiga.catalog.entities.dto.RoleDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,11 @@ public class Role implements Serializable{
 		super();
 		this.id = id;
 		this.authority = authority;
+	}
+	public Role(RoleDTO dto) {
+		super();
+		this.id = dto.getId();
+		this.authority = dto.getAuthority();
 	}
 	
 	public Long getId() {
