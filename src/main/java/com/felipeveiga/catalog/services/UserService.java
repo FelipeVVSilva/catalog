@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import com.felipeveiga.catalog.entities.Role;
 import com.felipeveiga.catalog.entities.User;
 import com.felipeveiga.catalog.entities.dto.RoleDTO;
 import com.felipeveiga.catalog.entities.dto.UserDTO;
+import com.felipeveiga.catalog.entities.dto.UserInsertDTO;
 import com.felipeveiga.catalog.repositories.UserRepository;
 import com.felipeveiga.catalog.services.exceptions.DatabaseException;
 import com.felipeveiga.catalog.services.exceptions.ResourceNotFoundException;
@@ -23,6 +25,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAll(Pageable pageable){
@@ -38,15 +43,16 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO insert(UserDTO dto) {
+	public UserDTO insert(UserInsertDTO dto) {
 		dto.setId(null);
 		User entity = new User(dto);
-		
+	 	entity.setPassword(encoder.encode(dto.getPassword()));
 		for (RoleDTO roleDTO : dto.getRoles()) {
 			entity.addRole(new Role(roleDTO));
 		}
 		
 		entity = repo.save(entity);
+		
 		return new UserDTO(entity);
 	}
 	
