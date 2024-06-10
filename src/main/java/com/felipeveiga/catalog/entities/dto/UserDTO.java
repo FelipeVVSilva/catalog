@@ -7,12 +7,21 @@ import java.util.stream.Collectors;
 
 import com.felipeveiga.catalog.entities.User;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
+	@NotBlank(message = "First name must not be blank")
 	private String firstName;
+	
+	@NotBlank(message = "Last name must not be blank")
 	private String lastName;
+	
+	@Email(message = "Invalid email")
 	private String email;
 	private Set<RoleDTO> roles = new HashSet<>();
 	

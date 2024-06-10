@@ -20,6 +20,8 @@ import com.felipeveiga.catalog.entities.dto.UserDTO;
 import com.felipeveiga.catalog.entities.dto.UserInsertDTO;
 import com.felipeveiga.catalog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @Controller
 @RequestMapping("/users")
 public class UserResource {
@@ -48,7 +50,7 @@ public class UserResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto){
+	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto){
 		UserDTO newDto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newDto.getId()).toUri();
@@ -56,7 +58,7 @@ public class UserResource {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO updatedUser){
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO updatedUser){
 		updatedUser = service.update(id, updatedUser);
 		return ResponseEntity.ok().body(updatedUser);
 	}

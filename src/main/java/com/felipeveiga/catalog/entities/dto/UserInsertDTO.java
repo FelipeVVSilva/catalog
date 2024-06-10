@@ -2,9 +2,12 @@ package com.felipeveiga.catalog.entities.dto;
 
 import com.felipeveiga.catalog.entities.User;
 
+import jakarta.validation.constraints.Size;
+
 public class UserInsertDTO extends UserDTO{
 	private static final long serialVersionUID = 1L;
 
+	@Size(min = 8, max = 64, message = "Password must have minimun 8 characteres and maximun 64 characteres")
 	private String password;
 
 	public UserInsertDTO() {

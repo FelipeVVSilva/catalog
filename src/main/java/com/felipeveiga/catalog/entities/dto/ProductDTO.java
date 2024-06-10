@@ -7,12 +7,21 @@ import java.util.Set;
 import com.felipeveiga.catalog.entities.Category;
 import com.felipeveiga.catalog.entities.Product;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 public class ProductDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@Size(min = 5, max = 60, message = "Name of product must have minimun 5 characters and maximun 60 characteres")
+	@NotBlank(message = "Name of product must not be blank")
 	private String name;
 	private String description;
+	
+	@Positive(message = "Price of product must have positive")
 	private Double price;
 	private String imgUrl;
 	private Set<CategoryDTO> categories = new HashSet<>();
