@@ -14,6 +14,7 @@ import com.felipeveiga.catalog.entities.User;
 import com.felipeveiga.catalog.entities.dto.RoleDTO;
 import com.felipeveiga.catalog.entities.dto.UserDTO;
 import com.felipeveiga.catalog.entities.dto.UserInsertDTO;
+import com.felipeveiga.catalog.entities.dto.UserUpdateDTO;
 import com.felipeveiga.catalog.repositories.UserRepository;
 import com.felipeveiga.catalog.services.exceptions.DatabaseException;
 import com.felipeveiga.catalog.services.exceptions.ResourceNotFoundException;
@@ -69,7 +70,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO update(Long id, UserDTO updatedUser) {
+	public UserDTO update(Long id, UserUpdateDTO updatedUser) {
 		try {
 			User user = repo.getReferenceById(id);
 			updateUserData(updatedUser, user);
