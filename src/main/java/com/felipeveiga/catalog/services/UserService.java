@@ -42,6 +42,18 @@ public class UserService {
 		return new UserDTO(entity);
 	}
 	
+	@Transactional(readOnly = true)
+	public UserDTO findUserByEmail(String email) {
+		
+		User user = repo.findUserByEmail(email);
+		
+		if (user != null) {
+			return new UserDTO(user);
+		}
+		return null;
+		
+	}
+	
 	@Transactional
 	public UserDTO insert(UserInsertDTO dto) {
 		dto.setId(null);

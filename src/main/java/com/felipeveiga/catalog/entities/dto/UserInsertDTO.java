@@ -1,9 +1,11 @@
 package com.felipeveiga.catalog.entities.dto;
 
 import com.felipeveiga.catalog.entities.User;
+import com.felipeveiga.catalog.services.validation.UserInsertValid;
 
 import jakarta.validation.constraints.Size;
 
+@UserInsertValid
 public class UserInsertDTO extends UserDTO{
 	private static final long serialVersionUID = 1L;
 
